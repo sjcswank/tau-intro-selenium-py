@@ -394,28 +394,28 @@ from pages.search import DuckDuckGoSearchPage
 
 
 def test_basic_duckduckgo_search(browser):
-  search_page = DuckDuckGoSearchPage(browser)
-  result_page = DuckDuckGoResultPage(browser)
-  PHRASE = "panda"
-  
-  # Given the DuckDuckGo home page is displayed
-  search_page.load()
+    search_page = DuckDuckGoSearchPage(browser)
+    result_page = DuckDuckGoResultPage(browser)
+    PHRASE = "panda"
 
-  # When the user searches for "panda"
-  search_page.search(PHRASE)
+    # Given the DuckDuckGo home page is displayed
+    search_page.load()
 
-  # Then the search result title contains "panda"
-  assert PHRASE in result_page.title()
-  
-  # And the search result query is "panda"
-  assert PHRASE == result_page.search_input_value()
-  
-  # And the search result links pertain to "panda"
-  for title in result_page.result_link_titles():
-    assert PHRASE.lower() in title.lower()
+    # When the user searches for "panda"
+    search_page.enter_search_phrase(PHRASE)
 
-  # TODO: Remove this exception once the test is complete
-  raise Exception("Incomplete Test")
+    # Then the search result title contains "panda"
+    assert PHRASE in result_page.title()
+
+    # And the search result query is "panda"
+    assert PHRASE == result_page.search_input_value()
+
+    # And the search result links pertain to "panda"
+    for title in result_page.result_link_titles():
+        assert PHRASE.lower() in title.lower()
+
+    # TODO: Remove this exception once the test is complete
+    raise Exception("Incomplete Test")
 ```
 
 Notice how we are able to write all the test steps using page object calls and assertions.
@@ -793,25 +793,25 @@ from pages.search import DuckDuckGoSearchPage
 
 
 def test_basic_duckduckgo_search(browser):
-  search_page = DuckDuckGoSearchPage(browser)
-  result_page = DuckDuckGoResultPage(browser)
-  PHRASE = "panda"
+    search_page = DuckDuckGoSearchPage(browser)
+    result_page = DuckDuckGoResultPage(browser)
+    PHRASE = "panda"
 
-  # Given the DuckDuckGo home page is displayed
-  search_page.load()
+    # Given the DuckDuckGo home page is displayed
+    search_page.load()
 
-  # When the user searches for "panda"
-  search_page.search(PHRASE)
+    # When the user searches for "panda"
+    search_page.enter_search_phrase(PHRASE)
 
-  # Then the search result title contains "panda"
-  assert PHRASE in result_page.title()
-  
-  # And the search result query is "panda"
-  assert PHRASE == result_page.search_input_value()
-  
-  # And the search result links pertain to "panda"
-  for title in result_page.result_link_titles():
-    assert PHRASE.lower() in title.lower()
+    # Then the search result title contains "panda"
+    assert PHRASE in result_page.title()
+
+    # And the search result query is "panda"
+    assert PHRASE == result_page.search_input_value()
+
+    # And the search result links pertain to "panda"
+    for title in result_page.result_link_titles():
+        assert PHRASE.lower() in title.lower()
 ```
 
 Rerun the test using `pipenv run python -m pytest`.
@@ -995,26 +995,26 @@ from pages.search import DuckDuckGoSearchPage
 
 
 def test_basic_duckduckgo_search(browser):
-  search_page = DuckDuckGoSearchPage(browser)
-  result_page = DuckDuckGoResultPage(browser)
-  PHRASE = "panda"
-  
-  # Given the DuckDuckGo home page is displayed
-  search_page.load()
+    search_page = DuckDuckGoSearchPage(browser)
+    result_page = DuckDuckGoResultPage(browser)
+    PHRASE = "panda"
 
-  # When the user searches for "panda"
-  search_page.search(PHRASE)
+    # Given the DuckDuckGo home page is displayed
+    search_page.load()
 
-  # Then the search result query is "panda"
-  assert PHRASE == result_page.search_input_value()
-  
-  # And the search result links pertain to "panda"
-  for title in result_page.result_link_titles():
-    assert PHRASE.lower() in title.lower()
+    # When the user searches for "panda"
+    search_page.enter_search_phrase(PHRASE)
 
-  # And the search result title contains "panda"
-  # (Putting this assertion last guarantees that the page title will be ready)
-  assert PHRASE in result_page.title()
+    # Then the search result query is "panda"
+    assert PHRASE == result_page.search_input_value()
+
+    # And the search result links pertain to "panda"
+    for title in result_page.result_link_titles():
+        assert PHRASE.lower() in title.lower()
+
+    # And the search result title contains "panda"
+    # (Putting this assertion last guarantees that the page title will be ready)
+    assert PHRASE in result_page.title()
 ```
 
 Rerun the test using `pipenv run python -m pytest` with Firefox to verify the fix.
@@ -1048,25 +1048,25 @@ from pages.search import DuckDuckGoSearchPage
 
 @pytest.mark.parametrize('phrase', ['panda', 'python', 'polar bear'])
 def test_basic_duckduckgo_search(browser, phrase):
-  search_page = DuckDuckGoSearchPage(browser)
-  result_page = DuckDuckGoResultPage(browser)
-  
-  # Given the DuckDuckGo home page is displayed
-  search_page.load()
+    search_page = DuckDuckGoSearchPage(browser)
+    result_page = DuckDuckGoResultPage(browser)
 
-  # When the user searches for the phrase
-  search_page.search(phrase)
+    # Given the DuckDuckGo home page is displayed
+    search_page.load()
 
-  # Then the search result query is the phrase
-  assert phrase == result_page.search_input_value()
-  
-  # And the search result links pertain to the phrase
-  for title in result_page.result_link_titles():
-    assert phrase.lower() in title.lower()
+    # When the user searches for the phrase
+    search_page.enter_search_phrase(phrase)
 
-  # And the search result title contains the phrase
-  # (Putting this assertion last guarantees that the page title will be ready)
-  assert phrase in result_page.title()
+    # Then the search result query is the phrase
+    assert phrase == result_page.search_input_value()
+
+    # And the search result links pertain to the phrase
+    for title in result_page.result_link_titles():
+        assert phrase.lower() in title.lower()
+
+    # And the search result title contains the phrase
+    # (Putting this assertion last guarantees that the page title will be ready)
+    assert phrase in result_page.title()
 ```
 
 The test will now run three times with different search phrases.

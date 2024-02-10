@@ -26,3 +26,10 @@ class DuckDuckGoResultPage:
 
     def title(self):
         return self.browser.title
+
+    def click_result(self):
+        links = self.browser.find_elements(*self.RESULT_LINKS)
+        links[0].click()
+
+    def current_url(self):
+        return self.browser.current_url
