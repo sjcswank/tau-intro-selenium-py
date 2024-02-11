@@ -47,20 +47,40 @@ def test_search_by_button_click(browser, phrase):
 
 
 def test_click_result_link(browser):
-    search_page = DuckDuckGoSearchPage(browser)
     result_page = DuckDuckGoResultPage(browser)
 
-    # Given the DuckDuckGo homepage is displayed
-    search_page.load()
+    # Given the DuckDuckGo result is displayed
+    result_page.load()
 
-    # When the user searches phrase and hits eneter
-    search_page.enter_search_phrase("panda")
-    search_page.send_return_to_search()
-
-    # And clicks on the first result
+    # When the user clicks on the first result
     result_page.click_result()
 
     # Then the current url does not contain DuckDuckGo
     assert "duckduckgo" not in result_page.current_url()
 
 
+def test_click_more_results(browser):
+    result_page = DuckDuckGoResultPage(browser)
+
+    # Given the DuckDuckGo result page is displayed
+    result_page.load()
+
+    # When the user clicks the more results button
+    result_page.click_more_results()
+
+    # Then there are more than 10 results shown
+    assert result_page.count_results() > 10
+
+
+def test_autocomplete_contains_phrase(browser):
+    result_page = DuckDuckGoResultPage(browser)
+
+    # Given the DuckDuckGo result page is deisplayed
+    result_page.load()
+
+    # When the user clicks in the search input box
+    result_page.click_search_input()
+
+    # Then the autocomplete suggestions will pertain to the phrase
+    for option in result_page.get_autocomplete_options():
+        assert "panda" in option
