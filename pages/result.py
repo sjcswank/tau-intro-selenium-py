@@ -4,6 +4,7 @@ DuckDuckGo search results page.
 """
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 
 class DuckDuckGoResultPage:
@@ -12,6 +13,9 @@ class DuckDuckGoResultPage:
     SEARCH_INPUT = (By.ID, "search_form_input")
     MORE_RESULTS = (By.ID, "more-results")
     AUTO_COMPLETE = (By.CSS_SELECTOR, 'div[role="option"]')
+    IMAGES_LINK = (By.LINK_TEXT, "Images")
+    VIDEO_LINK = (By.LINK_TEXT, "Videos")
+    NEWS_LINK = (By.LINK_TEXT, "News")
 
     def __init__(self, browser):
         self.browser = browser
@@ -25,9 +29,13 @@ class DuckDuckGoResultPage:
         return titles
 
     def search_input_value(self):
-        search_input_value = self.browser.find_element(*self.SEARCH_INPUT)
-        value = search_input_value.get_attribute("value")
+        search_input = self.browser.find_element(*self.SEARCH_INPUT)
+        value = search_input.get_attribute("value")
         return value
+
+    def search(self, phrase):
+        search_input = self.browser.find_element(*self.SEARCH_INPUT)
+        search_input.send_keys(phrase + Keys.RETURN)
 
     def title(self):
         return self.browser.title
@@ -47,7 +55,7 @@ class DuckDuckGoResultPage:
         results = self.browser.find_elements(*self.RESULT_LINKS)
         return len(results)
 
-    def get_autocomplete_options(self):
+    def autocomplete_options(self):
         auto_complete = self.browser.find_elements(*self.AUTO_COMPLETE)
         options = [option.text for option in auto_complete]
         return options
